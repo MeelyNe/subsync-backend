@@ -1,0 +1,18 @@
+image: docker:19.03.8
+
+before_script:
+  - docker info
+
+build:
+  stage: build
+  script:
+    - docker build -t hellorunner .
+
+deploy:
+  stage: deploy
+  script:
+    - docker ps --filter name=hellorunner --quiet |  xargs --no-run-if-empty docker stop | xargs --no-run-if-empty  docker rm
+    - docker run -d --restart=always --name hellorunner -p 4040:80 hellorunner
+
+after_script:
+  - docker system prune -f
