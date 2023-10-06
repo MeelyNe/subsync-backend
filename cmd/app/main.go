@@ -11,5 +11,9 @@ func main() {
 		})
 	})
 
+	app.Get("/p", func(ctx *fiber.Ctx) error {
+		return ctx.SendStatus(200)
+	})
+
 	app.Listen(":4040")
 }
